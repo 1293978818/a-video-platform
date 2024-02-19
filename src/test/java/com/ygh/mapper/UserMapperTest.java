@@ -34,4 +34,11 @@ public class UserMapperTest {
     public void delete(){
         userMapper.deleteByUsername("ygh");
     }
+
+    @Test
+    public void getByUsername(){
+        LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(User::getUsername, "ygh");
+        System.out.println(userMapper.selectOne(lambdaQueryWrapper));
+    }
 }
