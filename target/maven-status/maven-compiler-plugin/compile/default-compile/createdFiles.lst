@@ -1,0 +1,5 @@
+com\ygh\domain\User.class
+com\ygh\Work4Application.class
+com\ygh\mapper\UserMapper.class
+com\ygh\domain\User$UserBuilder.class
+com\ygh\handler\MyMetaObjectHandler.class
