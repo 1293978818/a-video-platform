@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Result {
-    private String accessToken;
-    private String refreshToken;
     private Base base;
     private Object data;
 }
