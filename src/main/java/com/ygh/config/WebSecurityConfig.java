@@ -29,11 +29,11 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.authorizeHttpRequests(auth -> {
-            auth.anyRequest().authenticated();
+            auth.requestMatchers("/user/register").permitAll()
+                .anyRequest().authenticated();
         })
             .formLogin(login -> {
-            login.loginProcessingUrl("/user/login")
-                .permitAll()
+            login.loginProcessingUrl("/user/login").permitAll()
                 .successHandler(myAuthenticationSuccessHandler)
                 .failureHandler(myAuthenticationFailureHandler);
         }).sessionManagement(session -> {

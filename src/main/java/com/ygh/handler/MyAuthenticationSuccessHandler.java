@@ -2,10 +2,8 @@ package com.ygh.handler;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -31,9 +29,6 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
    
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -50,10 +45,6 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
         base.setMsg("success");
         result.setBase(base);
         result.setData(user);
-        stringRedisTemplate.opsForValue()
-            .set("accessToken:" + accessToken, userInfo,JwtUtil.TOKEN_ACCESS,TimeUnit.MILLISECONDS);
-        stringRedisTemplate.opsForValue()
-            .set("refreshToken:" + refreshToken, userInfo,JwtUtil.TOKEN_REFRESH,TimeUnit.MILLISECONDS);
         print(response, result);
         
     }
