@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.Version;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,8 +24,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class User {
     @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    private String id;
+
     private String username;
+
+    @JsonIgnore
     private String password;
 
     @TableField(value = "avatar_url")
@@ -40,9 +44,11 @@ public class User {
     private Date deletedAt;
 
     @TableLogic
+    @JsonIgnore
     private Integer deleted;
 
     @Version
     @TableField(value = "version", fill = FieldFill.UPDATE, update = "%s+1")
+    @JsonIgnore
     private Integer version;
 }

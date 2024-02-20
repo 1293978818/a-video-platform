@@ -1,7 +1,6 @@
 package com.ygh.domain;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,54 +12,49 @@ public class MyUserDetails implements UserDetails{
 
     private final User user;
 
-    private List<GrantedAuthority> list;
-
     public MyUserDetails(User user){
         this.user = user;
     }
 
-    public void setAuthorities(List<GrantedAuthority> list){
-        this.list = list;
+    public User getUser(){
+        return user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return list;
+        return null;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        String password = user.getPassword();
+        user.setPassword(null);
+        return password;
     }
 
     @Override
     public String getUsername() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
+        return user.getUsername();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isAccountNonExpired'");
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isAccountNonLocked'");
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isCredentialsNonExpired'");
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isEnabled'");
+        return user.getDeleted().equals(0);
     }
     
 }

@@ -1,11 +1,20 @@
 spring:
  datasource:
-  url: jdbc:mysql://localhost:3306/work4?useSSL=false&serverTimezone=Asia/Shanghai
+  url: jdbc:mysql://localhost:3306/work4?useSSL=false&serverTimezone=UTC
   username: root
   password: 222316
+ data:
+  redis:
+    host: 192.168.190.131
+    port: 6379
+    password: 222316
+    database: 0
 mybatis-plus:
  configuration:
   log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 logging:
   level:
    mybatis-plus: DEBUG
+
+my:
+ secret: ygh112233

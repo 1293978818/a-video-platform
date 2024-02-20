@@ -3,6 +3,7 @@ package com.ygh.mapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ygh.domain.User;
@@ -23,8 +24,8 @@ public class UserMapperTest {
     public void update(){
         User user = new User();
         user.setUsername("ygh");
-        user.setPassword("123456");
-        user.setVersion(1);
+        user.setPassword(new BCryptPasswordEncoder().encode("123456"));
+        user.setVersion(3);
         LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(User::getUsername,user.getUsername());
         userMapper.update(user, lambdaQueryWrapper);
