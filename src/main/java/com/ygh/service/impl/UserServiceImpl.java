@@ -34,5 +34,13 @@ public class UserServiceImpl implements UserService{
         }
         userMapper.insert(user);
     }
+
+    @Override
+    public User selectById(String id) {
+        if(id == null){
+            throw new BizException("查询参数不能为空");
+        }
+        return userMapper.selectById(id);
+    }
     
 }

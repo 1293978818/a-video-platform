@@ -38,10 +38,10 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
         String userInfo = objectMapper.writeValueAsString(user);
         String accessToken = jwtUtil.createJwt(userInfo, JwtUtil.TOKEN_ACCESS);
         String refreshToken = jwtUtil.createJwt(userInfo, JwtUtil.TOKEN_REFRESH);
-        response.setHeader("Access_Token", accessToken);
-        response.setHeader("Refresh_Token", refreshToken);
+        response.setHeader("Access-Token", accessToken);
+        response.setHeader("Refresh-Token", refreshToken);
         Base base = new Base();
-        base.setCode(200);
+        base.setCode(10000);
         base.setMsg("success");
         result.setBase(base);
         result.setData(user);

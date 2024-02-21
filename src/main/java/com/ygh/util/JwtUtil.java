@@ -21,8 +21,8 @@ public class JwtUtil {
     @Value("${my.secret}")
     private String key;
 
-    public static final long TOKEN_ACCESS = 1000 * 60 * 60 * 24 * 2;
-    public static final long TOKEN_REFRESH = 1000 * 60 * 60 * 2;
+    public static final long TOKEN_REFRESH = 1000 * 60 * 60 * 24 * 2;
+    public static final long TOKEN_ACCESS = 1000 * 60 * 60 * 2;
     
     public String createJwt(String userInfo,long expiredTime){
         Date issuedDate = new Date();

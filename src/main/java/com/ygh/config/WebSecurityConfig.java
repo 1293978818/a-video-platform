@@ -9,7 +9,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.ygh.filter.TokenCheckFilter;
 import com.ygh.handler.MyAuthenticationFailureHandler;
 import com.ygh.handler.MyAuthenticationSuccessHandler;
 
@@ -25,20 +27,26 @@ public class WebSecurityConfig {
 
     @Autowired
     private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
+
+    @Autowired
+    private TokenCheckFilter tokenCheckFilter;
     
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
-        httpSecurity.authorizeHttpRequests(auth -> {
+        httpSecurity.addFilterBefore(tokenCheckFilter, UsernamePasswordAuthenticationFilter.class)
+        .authorizeHttpRequests(auth -> {
             auth.requestMatchers("/user/register").permitAll()
                 .anyRequest().authenticated();
         })
-            .formLogin(login -> {
+        .formLogin(login -> {
             login.loginProcessingUrl("/user/login").permitAll()
                 .successHandler(myAuthenticationSuccessHandler)
                 .failureHandler(myAuthenticationFailureHandler);
-        }).sessionManagement(session -> {
+        })
+        .sessionManagement(session -> {
             session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        }).csrf(csrf -> {
+        })
+        .csrf(csrf -> {
             csrf.disable();
         });
         return httpSecurity.build();
