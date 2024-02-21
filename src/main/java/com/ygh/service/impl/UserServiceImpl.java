@@ -37,10 +37,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User selectById(String id) {
-        if(id == null){
-            throw new BizException("查询参数不能为空");
+        User user = userMapper.selectById(id);
+        if(user == null){
+            throw new BizException("userid不存在");
         }
-        return userMapper.selectById(id);
+        return user;
     }
     
 }
