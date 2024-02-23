@@ -25,6 +25,11 @@ public class UserDetailsServiceImpl implements UserDetailsService{
         LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(User::getUsername,username);
         User user = userMapper.selectOne(lambdaQueryWrapper);
+
+        if(user == null){
+            throw new UsernameNotFoundException("用户名或密码错误");
+        }
+
         MyUserDetails myUserDetails = new MyUserDetails(user);
         return myUserDetails;
     }

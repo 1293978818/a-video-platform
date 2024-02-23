@@ -24,12 +24,6 @@ public class MyMetaObjectHandler implements MetaObjectHandler{
     public void updateFill(MetaObject metaObject) {
         Date date = new Date();
         this.setFieldValByName("updatedAt", date, metaObject);
-
-
-        Object version = this.getFieldValByName("version", metaObject);
-        if (null == version) {
-            this.setFieldValByName("version", 0, metaObject);
-        }
     }
     
 }

@@ -1,5 +1,8 @@
 package com.ygh.controller;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -27,7 +30,14 @@ public class ExceptionAdvice {
     public Result unknownException(Exception exception){
         Result result = new Result();
         result.setBase(new Base(-1, exception.getMessage()));
+        
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        exception.printStackTrace(pw);
+        String stackTrace = sw.toString();
+
         log.info(exception.getMessage());
+        log.info("Stack trace: " + stackTrace);
         return result;
     }
 }

@@ -31,16 +31,14 @@ public class User {
     @JsonIgnore
     private String password;
 
-    @TableField(value = "avatar_url")
     private String avatarUrl;
 
-    @TableField(value = "created_at",fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private Date createdAt;
 
-    @TableField(value = "updated_at",fill = FieldFill.INSERT_UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updatedAt;
 
-    @TableField(value = "deleted_at",fill = FieldFill.UPDATE)
     private Date deletedAt;
 
     @TableLogic
@@ -48,7 +46,6 @@ public class User {
     private Integer deleted;
 
     @Version
-    @TableField(value = "version", fill = FieldFill.UPDATE, update = "%s+1")
     @JsonIgnore
     private Integer version;
 }

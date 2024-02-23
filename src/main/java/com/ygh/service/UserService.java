@@ -1,5 +1,9 @@
 package com.ygh.service;
 
+import java.io.IOException;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import com.ygh.domain.User;
 
 /**
@@ -20,4 +24,12 @@ public interface UserService {
      * @return
      */
     public User selectById(String id);
+
+    /**
+     * 上传文件到数据库
+     * @param file
+     * @param user
+     * @throws IOException 
+     */
+    public void insertAvatar(MultipartFile file,User user) throws IOException;
 }

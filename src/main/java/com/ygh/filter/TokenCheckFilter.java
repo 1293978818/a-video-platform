@@ -46,6 +46,9 @@ public class TokenCheckFilter extends OncePerRequestFilter{
         List<String> whiteList = new ArrayList<>();
         whiteList.add("/user/login");
         whiteList.add("/user/register");
+        whiteList.add("/user/info");
+        whiteList.add("/video/list");
+        whiteList.add("/video/popular");
 
         if(whiteList.contains(request.getRequestURI())){
             doFilter(request, response, filterChain);

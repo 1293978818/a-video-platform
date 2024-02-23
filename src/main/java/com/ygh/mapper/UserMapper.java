@@ -18,4 +18,12 @@ public interface UserMapper extends BaseMapper<User>{
      */
     @Update("update user set deleted = 1,deleted_at = now() where username = #{username}")
     public void deleteByUsername(String username);
+
+    /**
+     * 根据用户名上传头像
+     * @param avatarUrl
+     * @param username
+     */
+    @Update("update user set avatar_url = #{avatarUrl} where username = #{username}")
+    public void insertAvatar(String avatarUrl,String username);
 }

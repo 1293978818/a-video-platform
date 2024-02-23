@@ -1,8 +1,14 @@
 package com.ygh.service.impl;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ygh.domain.User;
@@ -37,11 +43,44 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User selectById(String id) {
+
+        if(id == null){
+            throw new BizException("id信息为空");
+        }
+
+        String nums = "\\d+";
+        if(!id.matches(nums)){
+            throw new BizException("id非法");
+        }
+
         User user = userMapper.selectById(id);
+
         if(user == null){
             throw new BizException("userid不存在");
         }
+
         return user;
+    }
+
+    @Override
+    public void insertAvatar(MultipartFile file, User user) throws IOException {
+        if(file == null || file.isEmpty()){
+            throw new BizException("文件不能为空");
+        }
+
+        String contentType = file.getContentType();
+        String imageContentType = "image/";
+        if(contentType == null || (!contentType.startsWith(imageContentType))){
+            throw new BizException("该文件不是图片");
+        }
+
+        byte[] bytes = file.getBytes();
+        String url = "D:\\code\\javalearning\\work4\\avatars\\" 
+            + user.getId() + "." + contentType.split("/")[1];
+        Path path = Paths.get(url);
+
+        Files.write(path, bytes);
+        userMapper.insertAvatar(url, user.getUsername());
     }
     
 }

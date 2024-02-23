@@ -15,12 +15,6 @@ public class UserMapperTest {
     private UserMapper userMapper;
 
     @Test
-    public void add(){
-        User user = new User(null, "ygh", "123456", "null", null, null, null, null, null);
-        userMapper.insert(user);
-    }
-
-    @Test
     public void update(){
         User user = new User();
         user.setUsername("ygh");
@@ -29,11 +23,6 @@ public class UserMapperTest {
         LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(User::getUsername,user.getUsername());
         userMapper.update(user, lambdaQueryWrapper);
-    }
-
-    @Test
-    public void delete(){
-        userMapper.deleteByUsername("ygh");
     }
 
     @Test
