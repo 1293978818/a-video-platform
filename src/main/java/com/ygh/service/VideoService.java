@@ -38,4 +38,16 @@ public interface VideoService {
      * @return
      */
     public Videos popular(Integer pageSize,Integer pageNum);
+
+    /**
+     * 根据一定条件搜索视频
+     * @param keyword
+     * @param pageSize
+     * @param pageNum
+     * @param fromDate
+     * @param toDate
+     * @param username
+     * @return
+     */
+    public Videos search(String keyword, Integer pageSize, Integer pageNum, Long fromDate, Long toDate, String username);
 }

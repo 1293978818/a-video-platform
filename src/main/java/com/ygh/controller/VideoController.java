@@ -89,4 +89,23 @@ public class VideoController {
         result.setData(videos);
         return result;
     }
+
+    @PostMapping("/search")
+    public Result search(@RequestParam("keywords") String keywords,
+    @RequestParam("page_size") Integer pageSize,
+    @RequestParam("page_num") Integer pageNum,
+    @RequestParam(value = "from_date", required = false) Long fromDate,
+    @RequestParam(value = "to_date", required = false) Long toDate,
+    @RequestParam(value = "username", required = false) String username){
+        Result result = new Result();
+        Base base = new Base();
+
+        Videos videos = videoService.search(keywords, pageSize, pageNum, fromDate, toDate, username);
+
+        base.setCode(10000);
+        base.setMsg("success");
+        result.setBase(base);
+        result.setData(videos);
+        return result;
+    }
 }

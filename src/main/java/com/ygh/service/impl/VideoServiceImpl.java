@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -150,6 +151,57 @@ public class VideoServiceImpl implements VideoService{
         Videos videos = new Videos();
         videos.setItems(popularVideo);
 
+        return videos;
+    }
+
+    @Override
+    public Videos search(String keyword, Integer pageSize, Integer pageNum, Long fromDate, Long toDate, String username) {
+        pageNum ++;
+
+        if(pageNum < 0 || pageSize < 0){
+            throw new BizException("页码信息不合法");
+        }
+
+        Videos videos = new Videos();
+        LambdaQueryWrapper<Video> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+
+        if(!"".equals(keyword)){
+            lambdaQueryWrapper.and(i -> {
+                i.like(Video::getTitle, keyword).or().like(Video::getDescription, keyword);
+            });
+        }
+
+        if(fromDate != null && fromDate > 0){
+            String fDate = new Timestamp(fromDate).toString();
+            lambdaQueryWrapper.gt(Video::getCreatedAt, fDate);
+        }
+
+        if(toDate != null && toDate > 0){
+            String tDate = new Timestamp(toDate).toString();
+            lambdaQueryWrapper.lt(Video::getCreatedAt, tDate);
+        }
+
+        IPage<Video> page = new Page<>(pageNum, pageSize);
+        if(username == null){
+            videoMapper.selectPage(page, lambdaQueryWrapper);
+            videos.setItems(page.getRecords());
+            videos.setTotal(page.getTotal());
+            return videos;
+        }
+
+        LambdaQueryWrapper<User> userWapper = new LambdaQueryWrapper<>();
+        userWapper.like(User::getUsername, username);
+        List<User> users = userMapper.selectList(userWapper);
+
+        lambdaQueryWrapper.and(i -> {
+            for (User user : users) {
+                i.or().eq(Video::getUserId,user.getId());
+            }
+        });
+
+        videoMapper.selectPage(page, lambdaQueryWrapper);
+        videos.setItems(page.getRecords());
+        videos.setTotal(page.getTotal());
         return videos;
     }
     
