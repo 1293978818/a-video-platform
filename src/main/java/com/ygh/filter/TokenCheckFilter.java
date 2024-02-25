@@ -50,6 +50,9 @@ public class TokenCheckFilter extends OncePerRequestFilter{
         whiteList.add("/video/list");
         whiteList.add("/video/popular");
         whiteList.add("/video/search");
+        whiteList.add("/comment/list");
+        whiteList.add("/like/list");
+        whiteList.add("/following/list");
 
         if(whiteList.contains(request.getRequestURI())){
             doFilter(request, response, filterChain);

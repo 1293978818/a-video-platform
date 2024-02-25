@@ -35,7 +35,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.addFilterBefore(tokenCheckFilter, UsernamePasswordAuthenticationFilter.class)
         .authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/user/register","/user/info","/video/list","/video/popular","/video/search").permitAll()
+            auth.requestMatchers("/user/register","/user/info","/video/list","/video/popular","/video/search", "/comment/list", "/like/list", "/following/list").permitAll()
                 .anyRequest().authenticated();
         })
         .formLogin(login -> {
