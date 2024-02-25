@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,9 @@ import com.ygh.service.UserService;
  */
 @Service
 public class UserServiceImpl implements UserService{
+
+    @Value("${my.avatar_address}")
+    private String baseUrl;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -75,8 +79,7 @@ public class UserServiceImpl implements UserService{
         }
 
         byte[] bytes = file.getBytes();
-        String url = "D:\\code\\javalearning\\work4\\avatars\\" 
-            + user.getId() + "." + contentType.split("/")[1];
+        String url = baseUrl + user.getId() + "." + contentType.split("/")[1];
         Path path = Paths.get(url);
 
         Files.write(path, bytes);

@@ -12,5 +12,5 @@ public class Users {
     
     private List<User> user;
 
-    private Integer total;
+    private Long total;
 }
