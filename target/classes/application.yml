@@ -58,7 +58,7 @@ my:
  video_address: /root/work4/videos/
 logging:
   level:
-    mybatis-plus: DEBUG
+    mybatis-plus: INFO
 
 
   
