@@ -30,10 +30,7 @@ public class FollowServiceImpl implements FollowService{
     @Override
     public void action(String userId, String toUserId, Integer actionType) {
         
-        String nums = "\\d+";
-        if(!toUserId.matches(nums)){
-            throw new BizException("用户id非法");
-        }
+        isIdRight(toUserId);
 
         if(userId.equals(toUserId)){
             throw new BizException("不能对自己进行操作");
@@ -83,20 +80,11 @@ public class FollowServiceImpl implements FollowService{
     @Override
     public Users followList(String userId, Integer pageNum, Integer pageSize) {
 
-        if(pageNum == null || pageSize == null){
-            throw new BizException("页码信息不能为空");
-        }
-
-        if(pageNum < 0 || pageSize < 0){
-            throw new BizException("页码信息非法");
-        }
+        isPageRight(pageNum, pageSize);
 
         pageNum ++;
         
-        String nums = "\\d+";
-        if(!userId.matches(nums)){
-            throw new BizException("用户id非法");
-        }
+        isIdRight(userId);
 
         User user = userMapper.selectById(userId);
 
@@ -117,20 +105,11 @@ public class FollowServiceImpl implements FollowService{
     @Override
     public Users followerList(String userId, Integer pageNum, Integer pageSize) {
         
-        if(pageNum == null || pageSize == null){
-            throw new BizException("页码信息不能为空");
-        }
-
-        if(pageNum < 0 || pageSize < 0){
-            throw new BizException("页码信息非法");
-        }
+        isPageRight(pageNum, pageSize);
 
         pageNum ++;
         
-        String nums = "\\d+";
-        if(!userId.matches(nums)){
-            throw new BizException("用户id非法");
-        }
+        isIdRight(userId);
 
         User user = userMapper.selectById(userId);
 
@@ -151,15 +130,11 @@ public class FollowServiceImpl implements FollowService{
     @Override
     public Users friendsList(String userId, Integer pageNum, Integer pageSize) {
         
-        if(pageNum == null || pageSize == null){
-            throw new BizException("页码信息不能为空");
-        }
-
-        if(pageNum < 0 || pageSize < 0){
-            throw new BizException("页码信息非法");
-        }
+        isPageRight(pageNum, pageSize);
 
         pageNum ++;
+
+        isIdRight(userId);
 
         IPage<User> page = new Page<>(pageNum, pageSize);
         followMapper.selectFriends(userId, page);
@@ -171,5 +146,26 @@ public class FollowServiceImpl implements FollowService{
         return users;
     }
 
-    
+    private void isIdRight(String id){
+
+        if(id == null){
+            throw new BizException("id不能为空");
+        }
+
+        String nums = "\\d+";
+        if(!id.matches(nums)){
+            throw new BizException("评论id非法");
+        }
+    }
+
+    private void isPageRight(Integer pageNum, Integer pageSize){
+
+        if(pageNum == null || pageSize == null){
+            throw new BizException("页码信息不能为空");
+        }
+
+        if(pageNum < 0 || pageSize < 0){
+            throw new BizException("页码信息非法");
+        }
+    }
 }

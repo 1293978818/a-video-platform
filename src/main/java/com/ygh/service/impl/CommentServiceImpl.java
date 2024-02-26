@@ -36,17 +36,11 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public void publish(String videoId, String commentId, String content,String userId) {
         
-        boolean flag = (videoId == null && commentId == null) || (videoId != null && commentId != null);
-        if(flag){
-            throw new BizException("视频id和评论id有且仅有一个");
-        }
+        isIdAlone(videoId, commentId);
 
-        String nums = "\\d+";
         if(commentId == null){
 
-            if(!videoId.matches(nums)){
-                throw new BizException("视频id非法");
-            }
+            isIdRight(videoId);
 
             Video video = videoMapper.selectById(videoId);
 
@@ -65,9 +59,7 @@ public class CommentServiceImpl implements CommentService{
             return;
         }
 
-        if(!commentId.matches(nums)){
-            throw new BizException("评论id非法");
-        }
+        isIdRight(commentId);
 
         Comment comment = commentMapper.selectById(commentId);
 
@@ -83,8 +75,7 @@ public class CommentServiceImpl implements CommentService{
 
         commentMapper.insert(newComment);
 
-        comment.setChildCount(comment.getChildCount() + 1);
-        commentMapper.updateById(comment);
+        increaseChildComment(commentId);
 
         Video video = videoMapper.selectById(comment.getVideoId());
         video.setCommentCount(video.getCommentCount() + 1);
@@ -104,19 +95,13 @@ public class CommentServiceImpl implements CommentService{
         
         pageNum ++;
         
-        boolean flag = (videoId == null && commentId == null) || (videoId != null && commentId != null);
-        if(flag){
-            throw new BizException("视频id和评论id有且仅有一个");
-        }
+        isIdAlone(videoId, commentId);
 
         IPage<Comment> page = new Page<>(pageNum, pageSize);
         LambdaQueryWrapper<Comment> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        String nums = "\\d+";
         if(commentId == null){
 
-            if(!videoId.matches(nums)){
-                throw new BizException("视频id非法");
-            }
+            isIdRight(videoId);
 
             Video video = videoMapper.selectById(videoId);
 
@@ -130,9 +115,7 @@ public class CommentServiceImpl implements CommentService{
             return page.getRecords();
         }
 
-        if(!commentId.matches(nums)){
-            throw new BizException("评论id非法");
-        }
+        isIdRight(commentId);
 
         Comment comment = commentMapper.selectById(commentId);
 
@@ -149,10 +132,8 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public void delete(String commentId, String userId) {
-        
-        if(commentId == null){
-            throw new BizException("评论id为空");
-        }
+
+        isIdRight(commentId);
 
         Comment comment = commentMapper.selectById(commentId);
 
@@ -169,7 +150,7 @@ public class CommentServiceImpl implements CommentService{
         boolean flag = "-1".equals(comment.getParentId());
         if(!flag){
             Comment parentComment = commentMapper.selectById(comment.getParentId());
-            parentComment.setChildCount(0);
+            parentComment.setChildCount(parentComment.getChildCount() - count);
             commentMapper.updateById(parentComment);
         }
 
@@ -178,7 +159,21 @@ public class CommentServiceImpl implements CommentService{
         videoMapper.updateById(video);
     }
 
-    public int delete(String commentId){
+    private void increaseChildComment(String commentId){
+         
+        Comment comment = commentMapper.selectById(commentId);
+        String parentId = comment.getParentId();
+        
+        boolean flag = "-1".equals(parentId);
+        if(!flag){
+            increaseChildComment(parentId);
+        }
+
+        comment.setChildCount(comment.getChildCount() + 1);
+        commentMapper.updateById(comment);
+    }
+
+    private int delete(String commentId){
 
         int count = 0;
 
@@ -199,5 +194,28 @@ public class CommentServiceImpl implements CommentService{
         
         return count;
     }
+
+    private void isIdAlone(String videoId, String commentId){
+
+        boolean flag = (videoId == null && commentId == null) || (videoId != null && commentId != null);
+        if(flag){
+            throw new BizException("视频id和评论id有且仅有一个");
+        }
+    }
+
+    private void isIdRight(String id){
+
+        if(id == null){
+            throw new BizException("id不能为空");
+        }
+
+
+        String nums = "\\d+";
+        if(!id.matches(nums)){
+            throw new BizException("评论id非法");
+        }
+    }
+
+    
     
 }

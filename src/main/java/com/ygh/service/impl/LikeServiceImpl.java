@@ -61,11 +61,12 @@ public class LikeServiceImpl implements LikeService{
         throw new BizException("点赞操作不存在");
     }
 
-    public void like(String videoId, String commentId, String userId){
+    private void like(String videoId, String commentId, String userId){
 
         LambdaQueryWrapper<Like> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         if(videoId == null){
 
+            isIdRight(commentId);
             Comment comment = commentMapper.selectById(commentId);
 
             if(comment == null){
@@ -89,6 +90,7 @@ public class LikeServiceImpl implements LikeService{
             return;
         }
 
+        isIdRight(videoId);
         Video video = videoMapper.selectById(videoId);
 
         if(video == null){
@@ -110,7 +112,7 @@ public class LikeServiceImpl implements LikeService{
         videoMapper.updateById(video);
     }
 
-    public void dislike(String videoId, String commentId, String userId){
+    private void dislike(String videoId, String commentId, String userId){
         LambdaQueryWrapper<Like> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         if(videoId == null){
 
@@ -161,10 +163,7 @@ public class LikeServiceImpl implements LikeService{
 
         pageNum ++;
 
-        String nums = "\\d+";
-        if(!userId.matches(nums)){
-            throw new BizException("id非法");
-        }
+        isIdRight(userId);
         
         User user = userMapper.selectById(userId);
 
@@ -176,6 +175,18 @@ public class LikeServiceImpl implements LikeService{
         likeMapper.selectLikedVideo(userId, page);
 
         return page.getRecords();
+    }
+
+    private void isIdRight(String id){
+
+        if(id == null){
+            throw new BizException("id不能为空");
+        }
+
+        String nums = "\\d+";
+        if(!id.matches(nums)){
+            throw new BizException("评论id非法");
+        }
     }
     
 }

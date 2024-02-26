@@ -94,20 +94,11 @@ public class VideoServiceImpl implements VideoService{
     @Override
     public Videos list(String userId, Integer pageNum, Integer pageSize) {
 
-        if(pageNum < 0 || pageSize < 0){
-            throw new BizException("页码信息非法");
-        }
+        isPageRight(pageNum, pageSize);
 
         pageNum ++;
         
-        if(userId == null){
-            throw new BizException("id不能为空");
-        }
-
-        String nums = "\\d+";
-        if(!userId.matches(nums)){
-            throw new BizException("id非法");
-        }
+        isIdRight(userId);
 
         User user = userMapper.selectById(userId);
         if(user == null){
@@ -130,13 +121,7 @@ public class VideoServiceImpl implements VideoService{
     @Override
     public Videos popular(Integer pageSize, Integer pageNum) {
 
-        if(pageNum == null || pageSize == null){
-            throw new BizException("页码信息不能为空");
-        }
-
-        if(pageNum < 0 || pageSize < 0){
-            throw new BizException("页码信息非法");
-        }
+        isPageRight(pageNum, pageSize);
 
         int start = pageNum * pageSize;
         int end = (pageNum + 1) * pageSize - 1;
@@ -161,11 +146,10 @@ public class VideoServiceImpl implements VideoService{
 
     @Override
     public Videos search(String keyword, Integer pageSize, Integer pageNum, Long fromDate, Long toDate, String username) {
-        pageNum ++;
 
-        if(pageNum < 0 || pageSize < 0){
-            throw new BizException("页码信息不合法");
-        }
+        isPageRight(pageNum, pageSize);
+
+        pageNum ++;
 
         Videos videos = new Videos();
         LambdaQueryWrapper<Video> lambdaQueryWrapper = new LambdaQueryWrapper<>();
@@ -209,5 +193,27 @@ public class VideoServiceImpl implements VideoService{
         videos.setTotal(page.getTotal());
         return videos;
     }
+
+    private void isPageRight(Integer pageNum, Integer pageSize){
+
+        if(pageNum == null || pageSize == null){
+            throw new BizException("页码信息不能为空");
+        }
+
+        if(pageNum < 0 || pageSize < 0){
+            throw new BizException("页码信息非法");
+        }
+    }
     
+    private void isIdRight(String id){
+
+        if(id == null){
+            throw new BizException("id不能为空");
+        }
+
+        String nums = "\\d+";
+        if(!id.matches(nums)){
+            throw new BizException("评论id非法");
+        }
+    }
 }
