@@ -3,7 +3,7 @@
 
 ## 1.项目结构
 
-`php`
+```
 work4
 ├─ pom.xml //项目依赖
 ├─ src
@@ -71,8 +71,10 @@ work4
          └─ com
             └─ ygh
                └─ Work4ApplicationTests.java //启动测试类
+```
 
-`php`
+```php
+```
 
 ## 2.功能介绍
 
