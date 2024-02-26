@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
+ * 处理用户登录的类
  * @author ygh
  */
 public class MyUserDetails implements UserDetails{

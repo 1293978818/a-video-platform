@@ -8,6 +8,7 @@ import com.ygh.domain.User;
 import com.ygh.domain.Videos;
 
 /**
+ * 处理视频业务的接口
  * @author ygh
  */
 public interface VideoService {

@@ -5,6 +5,7 @@ import java.util.List;
 import com.ygh.domain.Video;
 
 /**
+ * 处理点赞业务的接口
  * @author ygh
  */
 public interface LikeService {

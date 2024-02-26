@@ -3,6 +3,7 @@ package com.ygh.service;
 import com.ygh.domain.Users;
 
 /**
+ * 处理关注业务的接口
  * @author ygh
  */
 public interface FollowService{

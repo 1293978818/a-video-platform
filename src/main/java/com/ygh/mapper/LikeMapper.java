@@ -9,6 +9,7 @@ import com.ygh.domain.Like;
 import com.ygh.domain.Video;
 
 /**
+ * 点赞的持久层
  * @author ygh
  */
 @Mapper

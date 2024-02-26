@@ -18,6 +18,7 @@ import com.ygh.mapper.VideoMapper;
 import com.ygh.service.CommentService;
 
 /**
+ * 处理评论业务的实现类
  * @author ygh
  */
 @Service

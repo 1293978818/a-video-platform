@@ -16,6 +16,7 @@ import com.ygh.handler.MyAuthenticationFailureHandler;
 import com.ygh.handler.MyAuthenticationSuccessHandler;
 
 /**
+ * springsecurity框架和密码编码器的配置类
  * @author ygh
  */
 @Configuration

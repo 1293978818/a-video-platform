@@ -3,6 +3,7 @@ package com.ygh.domain;
 import lombok.Data;
 
 /**
+ * 关注类
  * @author ygh
  */
 @Data

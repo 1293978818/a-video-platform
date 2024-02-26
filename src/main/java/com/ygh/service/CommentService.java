@@ -5,6 +5,7 @@ import java.util.List;
 import com.ygh.domain.Comment;
 
 /**
+ * 处理评论业务的接口
  * @author ygh
  */
 public interface CommentService {

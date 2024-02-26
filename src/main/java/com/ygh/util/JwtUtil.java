@@ -13,6 +13,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 
 /**
+ * 生成token，鉴定token，根据token返回信息的工具类
  * @author ygh
  */
 @Component
@@ -50,13 +51,8 @@ public class JwtUtil {
     }
 
     public String getUserInfo(String jwt){
-        try {
-            JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(key)).build();
-            DecodedJWT decodedJwt = jwtVerifier.verify(jwt);
-            return decodedJwt.getClaim("userInfo").asString();
-        } catch (Exception e) {
-            return null;
-        }
+        DecodedJWT decodedJwt = JWT.decode(jwt);
+        return decodedJwt.getClaim("userInfo").asString();
     }
 
 }

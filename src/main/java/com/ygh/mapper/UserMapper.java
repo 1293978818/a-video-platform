@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ygh.domain.User;
 
 /**
+ * 处理用户信息的持久层
  * @author ygh
  */
 @Mapper

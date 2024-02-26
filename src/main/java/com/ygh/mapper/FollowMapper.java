@@ -9,6 +9,7 @@ import com.ygh.domain.Follow;
 import com.ygh.domain.User;
 
 /**
+ * 关注的持久层
  * @author ygh
  */
 @Mapper

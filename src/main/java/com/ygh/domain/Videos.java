@@ -5,6 +5,7 @@ import java.util.List;
 import lombok.Data;
 
 /**
+ * 封装视频和总数的类
  * @author ygh
  */
 @Data

@@ -12,6 +12,7 @@ import com.ygh.domain.User;
 import com.ygh.mapper.UserMapper;
 
 /**
+ * 处理用户登录的业务的实现类
  * @author ygh
  */
 @Service

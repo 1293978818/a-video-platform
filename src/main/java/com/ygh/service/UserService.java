@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ygh.domain.User;
 
 /**
+ * 处理用户业务的接口
  * @author ygh
  */
 public interface UserService {

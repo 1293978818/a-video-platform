@@ -23,6 +23,7 @@ import com.ygh.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
+ * 处理评论信息的控制器
  * @author ygh
  */
 @RestController

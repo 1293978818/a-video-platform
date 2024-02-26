@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ygh.domain.Video;
 
 /**
+ * 处理视频信息的持久层
  * @author ygh
  */
 @Mapper

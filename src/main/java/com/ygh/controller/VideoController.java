@@ -21,6 +21,7 @@ import com.ygh.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
+ * 用于视频操作的控制器
  * @author ygh
  */
 @RestController

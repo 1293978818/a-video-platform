@@ -22,6 +22,7 @@ import com.ygh.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
+ * 用于点赞操作的控制器
  * @author ygh
  */
 @RestController

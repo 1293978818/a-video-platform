@@ -16,6 +16,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * 用户类
  * @author ygh
  */
 @Data

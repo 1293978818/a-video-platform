@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * 结果的信息类
  * @author ygh
  */
 @Data

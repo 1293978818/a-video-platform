@@ -14,6 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * 视频类
  * @author ygh
  */
 @Data

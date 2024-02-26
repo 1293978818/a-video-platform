@@ -29,6 +29,7 @@ import com.ygh.service.VideoService;
 import cn.hutool.core.lang.Snowflake;
 
 /**
+ * 处理视频业务的实现类
  * @author ygh
  */
 @Service

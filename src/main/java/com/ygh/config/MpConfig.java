@@ -11,6 +11,7 @@ import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
 
 /**
+ * mybatisplus配置乐观锁和分页助手以及手动生成雪花算法的配置类
  * @author ygh
  */
 @Configuration

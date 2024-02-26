@@ -9,7 +9,6 @@ spring:
       max-request-size: 1024MB
 mybatis-plus:
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
 
 ---
@@ -43,7 +42,7 @@ spring:
     activate:
       on-profile: pro
   datasource:
-    url: jdbc:mysql://localhost:3306/work4?useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.190.131:3306/work4?useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: 222316
   data:
@@ -59,6 +58,8 @@ my:
 logging:
   level:
     mybatis-plus: INFO
+  file:
+    path: /root/work4
 
 
   

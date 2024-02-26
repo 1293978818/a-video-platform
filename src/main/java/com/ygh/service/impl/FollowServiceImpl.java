@@ -15,6 +15,7 @@ import com.ygh.mapper.UserMapper;
 import com.ygh.service.FollowService;
 
 /**
+ * 处理关注业务的实现类
  * @author ygh
  */
 @Service

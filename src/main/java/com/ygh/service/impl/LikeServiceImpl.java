@@ -20,6 +20,7 @@ import com.ygh.mapper.VideoMapper;
 import com.ygh.service.LikeService;
 
 /**
+ * 处理点赞业务的实现类
  * @author ygh
  */
 @Service

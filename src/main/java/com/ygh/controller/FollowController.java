@@ -20,6 +20,7 @@ import com.ygh.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
+ * 用于关注操作的控制器
  * @author ygh
  */
 @RestController

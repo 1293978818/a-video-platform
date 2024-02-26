@@ -13,6 +13,7 @@ import com.ygh.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * 异常的拦截器
  * @author ygh
  */
 @RestControllerAdvice
