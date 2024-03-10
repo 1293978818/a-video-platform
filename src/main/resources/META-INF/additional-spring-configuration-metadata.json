@@ -7,11 +7,11 @@
   {
     "name": "my.avatar_address",
     "type": "java.lang.String",
-    "description": "A description for 'my.avatar_address'"
+    "description": "头像路径"
   },
   {
     "name": "my.video_address",
     "type": "java.lang.String",
-    "description": "A description for 'my.video_address'"
+    "description": "视频路径"
   }
 ]}

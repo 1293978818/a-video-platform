@@ -37,8 +37,8 @@ public class ExceptionAdvice {
         exception.printStackTrace(pw);
         String stackTrace = sw.toString();
 
-        log.info(exception.getMessage());
-        log.info("Stack trace: " + stackTrace);
+        log.error(exception.getMessage());
+        log.error("Stack trace: " + stackTrace);
         return result;
     }
 }

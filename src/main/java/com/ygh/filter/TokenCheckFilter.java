@@ -54,6 +54,7 @@ public class TokenCheckFilter extends OncePerRequestFilter{
         whiteList.add("/comment/list");
         whiteList.add("/like/list");
         whiteList.add("/following/list");
+        whiteList.add("/follower/list");
 
         if(whiteList.contains(request.getRequestURI())){
             doFilter(request, response, filterChain);

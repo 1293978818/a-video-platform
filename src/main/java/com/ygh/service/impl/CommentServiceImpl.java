@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -33,6 +34,7 @@ public class CommentServiceImpl implements CommentService{
     @Autowired
     private LikeMapper likeMapper;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void publish(String videoId, String commentId, String content,String userId) {
         
@@ -130,6 +132,7 @@ public class CommentServiceImpl implements CommentService{
         return page.getRecords();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(String commentId, String userId) {
 

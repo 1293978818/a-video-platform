@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -50,6 +51,7 @@ public class VideoServiceImpl implements VideoService{
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void publish(MultipartFile file, String title, String description, User user) throws IOException {
 
@@ -74,7 +76,7 @@ public class VideoServiceImpl implements VideoService{
         long id = snowflake.nextId();
 
         byte[] bytes = file.getBytes();
-        String url = "D:\\code\\javalearning\\work4\\videos\\" 
+        String url = baseUrl
             + id + "." + contentType.split("/")[1];
         Path path = Paths.get(url);
         Files.write(path, bytes);

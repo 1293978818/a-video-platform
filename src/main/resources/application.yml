@@ -1,15 +1,20 @@
 spring:
   profiles:
-    active: dev
+    active: pro
   jackson:
     property-naming-strategy: SNAKE_CASE
   servlet:
     multipart:
       max-file-size: 1024MB
       max-request-size: 1024MB
+      enabled: true
+      location: /var/tmp
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
+server:
+  tomcat:
+    connection-timeout: 180000
 
 ---
 
@@ -40,7 +45,7 @@ logging:
 spring:
   config:
     activate:
-      on-profile: pro
+      on-profile: test
   datasource:
     url: jdbc:mysql://192.168.190.131:3306/work4?useSSL=false&serverTimezone=Asia/Shanghai
     username: root
@@ -58,6 +63,36 @@ my:
 logging:
   level:
     mybatis-plus: INFO
+  file:
+    path: /root/work4
+
+---
+
+server:
+  port: 80
+spring:
+  config:
+    activate:
+      on-profile: pro
+  datasource:
+    url: jdbc:mysql://47.99.170.102:3306/work4?useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 222316
+  data:
+    redis:
+      host: 47.99.170.102
+      port: 6379
+      password: 222316
+      database: 0
+my:
+ secret: ygh112233
+ avatar_address: /root/work4/avatars/
+ video_address: /root/work4/videos/
+logging:
+  level:
+    root: ERROR
+    mybatis-plus: ERROR
+    '[org.springframework]': ERROR
   file:
     path: /root/work4
 
