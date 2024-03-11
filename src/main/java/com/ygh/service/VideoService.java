@@ -1,5 +1,7 @@
 package com.ygh.service;
 
+import java.util.List;
+
 import java.io.IOException;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -41,14 +43,26 @@ public interface VideoService {
     public Videos popular(Integer pageSize,Integer pageNum);
 
     /**
-     * 根据一定条件搜索视频
+     * 搜索视频
      * @param keyword
      * @param pageSize
      * @param pageNum
      * @param fromDate
      * @param toDate
      * @param username
+     * @param userId
+     * @param mode
+     * @param column
      * @return
      */
-    public Videos search(String keyword, Integer pageSize, Integer pageNum, Long fromDate, Long toDate, String username);
+    public Videos search(String keyword, Integer pageSize, Integer pageNum, Long fromDate, Long toDate, String username, String userId, Integer mode, Integer column);
+
+    /**
+     * 查询用户搜索记录
+     * @param userId
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public List<String> searchHistory(String userId,Integer pageNum,Integer pageSize);
 }

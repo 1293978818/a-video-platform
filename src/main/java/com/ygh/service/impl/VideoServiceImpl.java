@@ -147,7 +147,7 @@ public class VideoServiceImpl implements VideoService{
     }
 
     @Override
-    public Videos search(String keyword, Integer pageSize, Integer pageNum, Long fromDate, Long toDate, String username) {
+    public Videos search(String keyword, Integer pageSize, Integer pageNum, Long fromDate, Long toDate, String username, String userId, Integer mode, Integer column) {
 
         isPageRight(pageNum, pageSize);
 
@@ -160,6 +160,10 @@ public class VideoServiceImpl implements VideoService{
             lambdaQueryWrapper.and(i -> {
                 i.like(Video::getTitle, keyword).or().like(Video::getDescription, keyword);
             });
+            
+            if(userId != null){
+                stringRedisTemplate.opsForList().leftPush("search_history:" + userId, keyword);
+            }
         }
 
         if(fromDate != null && fromDate > 0){
@@ -174,26 +178,53 @@ public class VideoServiceImpl implements VideoService{
 
         IPage<Video> page = new Page<>(pageNum, pageSize);
         if(username == null){
+
+            orderByCondition(mode, column, lambdaQueryWrapper);
+            
             videoMapper.selectPage(page, lambdaQueryWrapper);
             videos.setItems(page.getRecords());
             videos.setTotal(page.getTotal());
             return videos;
         }
 
+        if(userId != null){
+            stringRedisTemplate.opsForList().leftPush("search_history:" + userId, username);
+        }
+
         LambdaQueryWrapper<User> userWapper = new LambdaQueryWrapper<>();
         userWapper.like(User::getUsername, username);
         List<User> users = userMapper.selectList(userWapper);
+        List<String> ids = new ArrayList<>();
 
-        lambdaQueryWrapper.and(i -> {
-            for (User user : users) {
-                i.or().eq(Video::getUserId,user.getId());
-            }
-        });
+        for (User user : users) {
+            ids.add(user.getId());
+        }
+
+        if(!ids.isEmpty()){
+            lambdaQueryWrapper.in(Video::getUserId, ids);
+        }
+
+        orderByCondition(mode, column, lambdaQueryWrapper);
 
         videoMapper.selectPage(page, lambdaQueryWrapper);
         videos.setItems(page.getRecords());
         videos.setTotal(page.getTotal());
         return videos;
+    }
+
+    
+
+    @Override
+    public List<String> searchHistory(String userId, Integer pageNum, Integer pageSize) {
+        
+        isPageRight(pageNum, pageSize);
+
+        isIdRight(userId);
+
+        int start = pageNum * pageSize;
+        int end = (pageNum + 1) * pageSize - 1;
+        List<String> histories = stringRedisTemplate.opsForList().range("search_history:" + userId, start, end);
+        return histories;
     }
 
     private void isPageRight(Integer pageNum, Integer pageSize){
@@ -215,7 +246,24 @@ public class VideoServiceImpl implements VideoService{
 
         String nums = "\\d+";
         if(!id.matches(nums)){
-            throw new BizException("评论id非法");
+            throw new BizException("id非法");
+        }
+    }
+
+    private void orderByCondition(Integer mode, Integer column, LambdaQueryWrapper<Video> lambdaQueryWrapper){
+
+        
+        switch (column) {
+            case 0:
+                lambdaQueryWrapper.orderBy(mode == 0, mode == 0, Video::getVisitCount);
+                lambdaQueryWrapper.orderBy(mode == 1, mode != 1, Video::getVisitCount);
+                break;
+            case 1:
+                lambdaQueryWrapper.orderBy(mode == 0, mode == 0, Video::getCreatedAt);
+                lambdaQueryWrapper.orderBy(mode == 1, mode != 1, Video::getCreatedAt);
+                break;
+            default:
+                break;
         }
     }
 }

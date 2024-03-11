@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,8 +18,6 @@ import com.ygh.domain.Result;
 import com.ygh.domain.User;
 import com.ygh.service.UserService;
 import com.ygh.util.JwtUtil;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 用于用户操作的控制器
@@ -61,8 +60,7 @@ public class UserController {
     }
 
     @PutMapping("/avatar/upload")
-    public Result avatarUpload(@RequestParam(value = "data",required = false) MultipartFile file,HttpServletRequest request) throws IOException{
-        String accessToken = request.getHeader("Refresh-Token");
+    public Result avatarUpload(@RequestParam(value = "data",required = false) MultipartFile file,@RequestHeader("Access-Token") String accessToken) throws IOException{
         User user = objectMapper.readValue(jwtUtil.getUserInfo(accessToken), User.class);
         userService.insertAvatar(file, user);
         Result result = new Result();

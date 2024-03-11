@@ -3,6 +3,7 @@ package com.ygh.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,8 +17,6 @@ import com.ygh.domain.User;
 import com.ygh.domain.Users;
 import com.ygh.service.FollowService;
 import com.ygh.util.JwtUtil;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 用于关注操作的控制器
@@ -39,11 +38,10 @@ public class FollowController {
     @PostMapping("/relation/action")
     public Result action(@RequestParam("to_user_id") String toUserId,
     @RequestParam("action_type") Integer actionType,
-    HttpServletRequest request) throws JsonMappingException, JsonProcessingException{
+    @RequestHeader("Access-Token") String accessToken) throws JsonMappingException, JsonProcessingException{
         Result result = new Result();
         Base base = new Base();
 
-        String accessToken = request.getHeader("Access-Token");
         String userInfo = jwtUtil.getUserInfo(accessToken);
         User user = objectMapper.readValue(userInfo, User.class);
 
@@ -90,11 +88,10 @@ public class FollowController {
     @GetMapping("/friends/list")
     public Result friendsList(@RequestParam(value = "page_size", required = false) Integer pageSize,
     @RequestParam(value = "page_num", required = false) Integer pageNum,
-    HttpServletRequest request) throws JsonMappingException, JsonProcessingException{
+    @RequestHeader("Access-Token") String accessToken) throws JsonMappingException, JsonProcessingException{
         Result result = new Result();
         Base base = new Base();
 
-        String accessToken = request.getHeader("Access-Token");
         String userInfo = jwtUtil.getUserInfo(accessToken);
         User user = objectMapper.readValue(userInfo, User.class);
 
