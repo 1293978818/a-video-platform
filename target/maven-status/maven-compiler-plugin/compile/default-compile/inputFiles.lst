@@ -4,7 +4,9 @@ d:\code\javalearning\work4\src\main\java\com\ygh\domain\Videos.java
 d:\code\javalearning\work4\src\main\java\com\ygh\service\impl\UserServiceImpl.java
 d:\code\javalearning\work4\src\main\java\com\ygh\util\JwtUtil.java
 d:\code\javalearning\work4\src\main\java\com\ygh\domain\Result.java
+d:\code\javalearning\work4\src\main\java\com\ygh\service\VideoLoadService.java
 d:\code\javalearning\work4\src\main\java\com\ygh\service\VideoService.java
+d:\code\javalearning\work4\src\main\java\com\ygh\config\AsyncConfig.java
 d:\code\javalearning\work4\src\main\java\com\ygh\domain\Like.java
 d:\code\javalearning\work4\src\main\java\com\ygh\filter\TokenCheckFilter.java
 d:\code\javalearning\work4\src\main\java\com\ygh\domain\Users.java
@@ -26,6 +28,7 @@ d:\code\javalearning\work4\src\main\java\com\ygh\controller\LikeController.java
 d:\code\javalearning\work4\src\main\java\com\ygh\domain\MyUserDetails.java
 d:\code\javalearning\work4\src\main\java\com\ygh\exception\BizException.java
 d:\code\javalearning\work4\src\main\java\com\ygh\service\impl\CommentServiceImpl.java
+d:\code\javalearning\work4\src\main\java\com\ygh\service\impl\VideoLoadServiceImpl.java
 d:\code\javalearning\work4\src\main\java\com\ygh\mapper\VideoMapper.java
 d:\code\javalearning\work4\src\main\java\com\ygh\controller\ExceptionAdvice.java
 d:\code\javalearning\work4\src\main\java\com\ygh\controller\CommentController.java
