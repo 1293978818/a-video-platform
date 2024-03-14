@@ -1,13 +1,12 @@
 package com.ygh.service.impl;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +24,7 @@ import com.ygh.domain.Videos;
 import com.ygh.exception.BizException;
 import com.ygh.mapper.UserMapper;
 import com.ygh.mapper.VideoMapper;
+import com.ygh.service.VideoLoadService;
 import com.ygh.service.VideoService;
 
 import cn.hutool.core.lang.Snowflake;
@@ -51,9 +51,12 @@ public class VideoServiceImpl implements VideoService{
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    @Autowired
+    private VideoLoadService videoLoadService;
+
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void publish(MultipartFile file, String title, String description, User user) throws IOException {
+    public void publish(MultipartFile file, String title, String description, User user) throws IOException, InterruptedException, ExecutionException {
 
         if(file == null){
             throw new BizException("视频不能为空");
@@ -75,11 +78,9 @@ public class VideoServiceImpl implements VideoService{
 
         long id = snowflake.nextId();
 
-        byte[] bytes = file.getBytes();
         String url = baseUrl
             + id + "." + contentType.split("/")[1];
-        Path path = Paths.get(url);
-        Files.write(path, bytes);
+        CompletableFuture<Boolean> load = videoLoadService.loadVideo(url, file);
 
         Video video = new Video();
         video.setId(Long.toString(id));
@@ -91,6 +92,15 @@ public class VideoServiceImpl implements VideoService{
         videoMapper.insert(video);
 
         stringRedisTemplate.opsForZSet().add("visit_count_ranking", Long.toString(id), 0);
+
+        Boolean success = load.get();
+
+        if(success){
+            return;
+        }else{
+            videoMapper.deleteForever(id);
+            throw new BizException("视频上传失败，请重试");
+        }
     }
 
     @Override

@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "my.secret",
+    "type": "java.lang.String",
+    "description": "token加密密钥"
+  },
+  {
+    "name": "my.avatar_address",
+    "type": "java.lang.String",
+    "description": "头像路径"
+  },
+  {
+    "name": "my.video_address",
+    "type": "java.lang.String",
+    "description": "视频路径"
+  }
+]}

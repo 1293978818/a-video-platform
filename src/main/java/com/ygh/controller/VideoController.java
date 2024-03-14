@@ -1,6 +1,7 @@
 package com.ygh.controller;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import com.ygh.domain.Base;
 import com.ygh.domain.Result;
 import com.ygh.domain.User;
 import com.ygh.domain.Videos;
+import com.ygh.exception.BizException;
 import com.ygh.service.VideoService;
 import com.ygh.util.JwtUtil;
 
@@ -42,7 +44,7 @@ public class VideoController {
     public Result publish(@RequestParam(value = "data",required = false) MultipartFile file,
     @RequestParam(value = "title", required = false) String title,
     @RequestParam(value = "description", required = false) String description,
-    @RequestHeader("Access-Token") String accessToken) throws IOException{
+    @RequestHeader("Access-Token") String accessToken) throws IOException, InterruptedException, ExecutionException{
         Result result = new Result();
         Base base = new Base();
         
@@ -106,6 +108,11 @@ public class VideoController {
 
         String userId = null;
         if(accessToken != null){
+
+            if(!jwtUtil.verifyJwt(accessToken)){
+                throw new BizException("登录认证失效");
+            }
+
             String userInfo = jwtUtil.getUserInfo(accessToken);
             User user = objectMapper.readValue(userInfo, User.class);
             userId = user.getId();

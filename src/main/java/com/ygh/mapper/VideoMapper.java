@@ -1,5 +1,6 @@
 package com.ygh.mapper;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
 
@@ -18,5 +19,12 @@ public interface VideoMapper extends BaseMapper<Video>{
      * @param id
      */
     @Update("update video set deleted = 1,deleted_at = now() where id = #{id}")
-    public void deleteById(Integer id);
+    public void deleteById(Long id);
+
+    /**
+     * 永远删除视频
+     * @param id
+     */
+    @Delete("delete from video where id = #{id}")
+    public void deleteForever(Long id);
 }

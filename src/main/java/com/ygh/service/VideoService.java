@@ -1,7 +1,7 @@
 package com.ygh.service;
 
 import java.util.List;
-
+import java.util.concurrent.ExecutionException;
 import java.io.IOException;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -21,9 +21,11 @@ public interface VideoService {
      * @param title
      * @param description
      * @param user
-     * @throws IOException 
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws ExecutionException
      */
-    public void publish(MultipartFile file,String title,String description,User user) throws IOException;
+    public void publish(MultipartFile file,String title,String description,User user) throws IOException, InterruptedException, ExecutionException;
 
     /**
      * 根据id返回视频
