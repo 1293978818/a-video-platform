@@ -68,6 +68,11 @@ public class VideoServiceImpl implements VideoService{
             throw new BizException("视频格式错误");
         }
 
+        long maxSize = 1024 * 1024 * 1024;
+        if(file.getSize() >= maxSize){
+            throw new BizException("视频大小不能超过1G");
+        }
+
         if(title == null){
             title = "Untitled";
         }
